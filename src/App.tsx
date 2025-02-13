@@ -6,6 +6,8 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import Header from './components/header/header.tsx'
 import { Content } from './components/content/content.tsx'
+import { useContactsStore } from './stores/use-contacts-store.ts'
+import { useEffect } from 'react'
 
 function App() {
     const theme = createTheme({
@@ -13,6 +15,12 @@ function App() {
             fontSize: 12,
         },
     })
+
+    const { fetchContacts } = useContactsStore()
+
+    useEffect(() => {
+        fetchContacts()
+    }, [])
 
     return (
         <ThemeProvider theme={theme}>

@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Paper } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import MenuIcon from '@mui/icons-material/Menu'
-import { useGetContacts } from '../../hooks/use-get-contacts.ts'
+import { useContactsStore } from '../../stores/use-contacts-store.ts'
 
 const columns: GridColDef[] = [
     { field: 'name', headerName: 'Name', width: 200, disableColumnMenu: true },
@@ -50,11 +50,26 @@ interface Props {
     onSelect: (id: string) => void
 }
 export const ContactsTable: React.FC<Props> = ({ onSelect }) => {
-    const { contacts } = useGetContacts()
+    const { filter, contacts } = useContactsStore()
+
+    const rows = useMemo(
+        () =>
+            filter.name || filter.city || filter.isActive !== undefined
+                ? contacts.filter(
+                      (contact) =>
+                          contact.city === filter.city &&
+                          contact.name
+                              .toLowerCase()
+                              .includes(filter.name.toLowerCase()) &&
+                          contact.isActive === filter.isActive
+                  )
+                : contacts,
+        [contacts, filter]
+    )
     return (
         <Paper sx={{ height: '100%' }}>
             <DataGrid
-                rows={contacts}
+                rows={rows}
                 rowSelection={true}
                 onRowClick={(value) => onSelect(value.id.toString())}
                 columns={columns}
