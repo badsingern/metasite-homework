@@ -14,6 +14,19 @@ function App() {
         typography: {
             fontSize: 12,
         },
+        palette: {
+            primary: {
+                main: '#1EE9B6',
+            },
+
+            secondary: {
+                main: '#fff',
+            },
+            info: {
+                main: '#0d47a1',
+                '700': '#1665c0',
+            },
+        },
     })
 
     const { fetchContacts } = useContactsStore()

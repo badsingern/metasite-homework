@@ -12,48 +12,47 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 
 const textFieldCustomStyles = {
     '& .MuiOutlinedInput-root': {
-        color: 'white',
-        fontFamily: 'Arial',
+        color: 'secondary.main',
         fontWeight: 'bold',
         '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'white',
+            borderColor: 'secondary.main',
             borderWidth: '1px',
         },
         '&.Mui-focused': {
             '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+                borderColor: 'secondary.main',
                 borderWidth: '1px',
             },
         },
         '&:hover:not(.Mui-focused)': {
             '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+                borderColor: 'secondary.main',
             },
         },
     },
     '& .MuiInputLabel-outlined': {
-        color: 'white',
+        color: 'secondary.main',
         fontWeight: 'bold',
         '&.Mui-focused': {
-            color: 'white',
+            color: 'secondary.main',
             fontWeight: 'bold',
         },
     },
     '.MuiSvgIcon-root ': {
-        color: 'white',
-        fill: 'white',
+        color: 'secondary.main',
+        fill: 'secondary.main',
     },
 }
 
 const checkboxCustomStyles = {
-    color: '#1EE9B6',
+    color: 'primary.main',
     '&.Mui-checked': {
-        color: '#1EE9B6',
+        color: 'primary.main',
     },
 }
 
 const buttonCustomStyles = {
-    backgroundColor: '#1EE9B6',
+    backgroundColor: 'primary.main',
     height: '36px',
     color: 'black',
 }
@@ -66,6 +65,12 @@ const Container = styled.div`
 
 const TextField = styled(MuiTextField)`
     width: 300px;
+`
+
+const CheckboxLabelContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 10px;
 `
 
 export const Filter: React.FC = () => {
@@ -128,18 +133,12 @@ export const Filter: React.FC = () => {
                     />
                 }
                 label={
-                    <div
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 10,
-                        }}
-                    >
+                    <CheckboxLabelContainer>
                         Show Active <VisibilityIcon />
-                    </div>
+                    </CheckboxLabelContainer>
                 }
                 sx={{
-                    color: 'white',
+                    color: 'secondary.main',
                 }}
             />
             <Button
