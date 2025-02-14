@@ -22,7 +22,7 @@ const Header: React.FC = () => {
     return (
         <>
             <Title>
-                <Typography variant="h2">Contactify</Typography>
+                <Typography variant="h2">CONTACTIFY</Typography>
             </Title>
             <Content>
                 <Filter />

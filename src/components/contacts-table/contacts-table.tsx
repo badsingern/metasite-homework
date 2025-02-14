@@ -5,12 +5,33 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import MenuIcon from '@mui/icons-material/Menu'
 import { useContactsStore } from '../../stores/use-contacts-store.ts'
 
+const tableContainerCustomStyles = {
+    height: '100%',
+    '.contacts-app-theme--header': {
+        backgroundColor: '#2196F3',
+        color: 'white',
+    },
+}
+
 const columns: GridColDef[] = [
-    { field: 'name', headerName: 'Name', width: 200, disableColumnMenu: true },
-    { field: 'city', headerName: 'City', width: 200, disableColumnMenu: true },
+    {
+        field: 'name',
+        headerName: 'Name',
+        headerClassName: 'contacts-app-theme--header',
+        width: 200,
+        disableColumnMenu: true,
+    },
+    {
+        field: 'city',
+        headerName: 'City',
+        headerClassName: 'contacts-app-theme--header',
+        width: 200,
+        disableColumnMenu: true,
+    },
     {
         field: 'isActive',
         headerName: 'Is Active',
+        headerClassName: 'contacts-app-theme--header',
         type: 'number',
         width: 30,
         renderHeader: () => <VisibilityIcon />,
@@ -23,7 +44,7 @@ const columns: GridColDef[] = [
     {
         field: 'email',
         headerName: 'Email',
-        description: 'This column has a value getter and is not sortable.',
+        headerClassName: 'contacts-app-theme--header',
         sortable: false,
         width: 200,
         disableColumnMenu: true,
@@ -31,7 +52,7 @@ const columns: GridColDef[] = [
     {
         field: 'phone',
         headerName: 'Phone',
-        description: 'This column has a value getter and is not sortable.',
+        headerClassName: 'contacts-app-theme--header',
         sortable: false,
         width: 200,
         disableColumnMenu: true,
@@ -39,7 +60,7 @@ const columns: GridColDef[] = [
     {
         field: 'columnShow',
         headerName: 'Column Show',
-        description: 'This column has a value getter and is not sortable.',
+        headerClassName: 'contacts-app-theme--header',
         sortable: false,
         width: 40,
         renderHeader: () => <MenuIcon />,
@@ -67,7 +88,7 @@ export const ContactsTable: React.FC<Props> = ({ onSelect }) => {
         [contacts, filter]
     )
     return (
-        <Paper sx={{ height: '100%' }}>
+        <Paper sx={tableContainerCustomStyles}>
             <DataGrid
                 rows={rows}
                 rowSelection={true}
