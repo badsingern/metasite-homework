@@ -8,8 +8,9 @@ import {
     TextField as MuiTextField,
 } from '@mui/material'
 import { useContactsStore } from '../../stores/use-contacts-store.ts'
+import VisibilityIcon from '@mui/icons-material/Visibility'
 
-const textFieldStyles = {
+const textFieldCustomStyles = {
     '& .MuiOutlinedInput-root': {
         color: 'white',
         fontFamily: 'Arial',
@@ -44,9 +45,23 @@ const textFieldStyles = {
     },
 }
 
+const checkboxCustomStyles = {
+    color: '#1EE9B6',
+    '&.Mui-checked': {
+        color: '#1EE9B6',
+    },
+}
+
+const buttonCustomStyles = {
+    backgroundColor: '#1EE9B6',
+    height: '36px',
+    color: 'black',
+}
+
 const Container = styled.div`
     display: flex;
     gap: 20px;
+    align-items: center;
 `
 
 const TextField = styled(MuiTextField)`
@@ -64,12 +79,12 @@ export const Filter: React.FC = () => {
         name: string
         city: string
         isActive: boolean | undefined
-    }>({ name: '', city: '', isActive: undefined })
+    }>({ name: '', city: '', isActive: false })
     return (
         <Container>
             <TextField
-                sx={textFieldStyles}
-                label="Outlined"
+                sx={textFieldCustomStyles}
+                label="Name"
                 variant="outlined"
                 value={filterValues.name}
                 onChange={(value) =>
@@ -80,8 +95,8 @@ export const Filter: React.FC = () => {
                 }
             />
             <TextField
-                sx={textFieldStyles}
-                label="Outlined"
+                sx={textFieldCustomStyles}
+                label="City"
                 select
                 variant="outlined"
                 value={filterValues.city}
@@ -109,22 +124,27 @@ export const Filter: React.FC = () => {
                                 isActive: value.target.checked,
                             }))
                         }
-                        sx={{
-                            color: '#1EE9B6',
-                            '&.Mui-checked': {
-                                color: '#1EE9B6',
-                            },
-                        }}
+                        sx={checkboxCustomStyles}
                     />
                 }
-                label="Label"
+                label={
+                    <div
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 10,
+                        }}
+                    >
+                        Show Active <VisibilityIcon />
+                    </div>
+                }
                 sx={{
                     color: 'white',
                 }}
             />
             <Button
                 variant="contained"
-                sx={{ backgroundColor: '#1EE9B6', color: 'black' }}
+                sx={buttonCustomStyles}
                 onClick={() => {
                     setFilter(filterValues)
                 }}

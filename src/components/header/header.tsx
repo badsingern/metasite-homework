@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import React from 'react'
 import { Filter } from '../filter/filter.tsx'
+import { Typography } from '@mui/material'
 
 const Title = styled.div`
     background-color: #0d47a1;
@@ -20,7 +21,9 @@ const Content = styled.div`
 const Header: React.FC = () => {
     return (
         <>
-            <Title>CONTACTIFY</Title>
+            <Title>
+                <Typography variant="h2">Contactify</Typography>
+            </Title>
             <Content>
                 <Filter />
             </Content>
