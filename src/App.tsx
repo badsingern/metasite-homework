@@ -1,34 +1,30 @@
 import './App.css'
 import { createTheme, ThemeProvider } from '@mui/material'
-import '@fontsource/roboto/300.css'
-import '@fontsource/roboto/400.css'
-import '@fontsource/roboto/500.css'
-import '@fontsource/roboto/700.css'
-import Header from './components/header/header.tsx'
 import { Content } from './components/content/content.tsx'
 import { useContactsStore } from './stores/use-contacts-store.ts'
 import { useEffect } from 'react'
+import { Header } from './components/header/header.tsx'
 
-function App() {
-    const theme = createTheme({
-        typography: {
-            fontSize: 12,
+const theme = createTheme({
+    typography: {
+        fontSize: 12,
+    },
+    palette: {
+        primary: {
+            main: '#1EE9B6',
         },
-        palette: {
-            primary: {
-                main: '#1EE9B6',
-            },
 
-            secondary: {
-                main: '#fff',
-            },
-            info: {
-                main: '#0d47a1',
-                '700': '#1665c0',
-            },
+        secondary: {
+            main: '#F9FAFB',
         },
-    })
+        info: {
+            main: '#0d47a1',
+            light: '#1665c0',
+        },
+    },
+})
 
+export const App: React.FC = () => {
     const { fetchContacts } = useContactsStore()
 
     useEffect(() => {
@@ -42,5 +38,3 @@ function App() {
         </ThemeProvider>
     )
 }
-
-export default App

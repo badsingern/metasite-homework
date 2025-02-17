@@ -1,28 +1,33 @@
 import styled from '@emotion/styled'
 import React from 'react'
 import { Filter } from '../filter/filter.tsx'
-import { Typography } from '@mui/material'
+import { Theme, Typography } from '@mui/material'
 
 const Title = styled.div`
-    background-color: #0d47a1;
+    background-color: ${({ theme }: { theme?: Theme }) =>
+        theme?.palette.info.main};
     width: 100%;
     color: white;
     font-size: 48px;
     text-align: left;
     padding: 16px 24px;
+    box-sizing: border-box;
 `
 
 const Content = styled.div`
     padding: 24px;
-    background-color: #1665c0;
+    background-color: ${({ theme }: { theme?: Theme }) =>
+        theme?.palette.info.light};
     height: 100px;
 `
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
     return (
         <>
             <Title>
-                <Typography variant="h2">CONTACTIFY</Typography>
+                <Typography variant="h2" fontWeight="600">
+                    CONTACTIFY
+                </Typography>
             </Title>
             <Content>
                 <Filter />
@@ -30,5 +35,3 @@ const Header: React.FC = () => {
         </>
     )
 }
-
-export default Header

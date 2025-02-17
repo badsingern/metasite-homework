@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Paper } from '@mui/material'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import MenuIcon from '@mui/icons-material/Menu'
-import { useContactsStore } from '../../stores/use-contacts-store.ts'
+import { DataGrid } from '@mui/x-data-grid'
+import { createContactsTableColumns } from './contacts-table-columns.tsx'
+import { useContactsTableRows } from './hooks/use-contacts-table-rows.ts'
+import { useContactsTableColumnVisibility } from './hooks/use-contacts-table-column-visibility.ts'
 
 const tableContainerCustomStyles = {
     height: '100%',
@@ -13,88 +13,53 @@ const tableContainerCustomStyles = {
     },
 }
 
-const columns: GridColDef[] = [
-    {
-        field: 'name',
-        headerName: 'Name',
-        headerClassName: 'contacts-app-theme--header',
-        width: 200,
-        disableColumnMenu: true,
-    },
-    {
-        field: 'city',
-        headerName: 'City',
-        headerClassName: 'contacts-app-theme--header',
-        width: 200,
-        disableColumnMenu: true,
-    },
-    {
-        field: 'isActive',
-        headerName: 'Is Active',
-        headerClassName: 'contacts-app-theme--header',
-        type: 'number',
-        width: 30,
-        renderHeader: () => <VisibilityIcon />,
-        renderCell: (params) => {
-            return params.value ? <VisibilityIcon /> : null
-        },
-        disableColumnMenu: true,
-        sortable: false,
-    },
-    {
-        field: 'email',
-        headerName: 'Email',
-        headerClassName: 'contacts-app-theme--header',
-        sortable: false,
-        width: 200,
-        disableColumnMenu: true,
-    },
-    {
-        field: 'phone',
-        headerName: 'Phone',
-        headerClassName: 'contacts-app-theme--header',
-        sortable: false,
-        width: 200,
-        disableColumnMenu: true,
-    },
-    {
-        field: 'columnShow',
-        headerName: 'Column Show',
-        headerClassName: 'contacts-app-theme--header',
-        sortable: false,
-        width: 40,
-        renderHeader: () => <MenuIcon />,
-    },
-]
-
 interface Props {
     onSelect: (id: string) => void
 }
 export const ContactsTable: React.FC<Props> = ({ onSelect }) => {
-    const { filter, contacts } = useContactsStore()
-
-    const rows = useMemo(
-        () =>
-            filter.name || filter.city || filter.isActive !== undefined
-                ? contacts.filter(
-                      (contact) =>
-                          contact.city === filter.city &&
-                          contact.name
-                              .toLowerCase()
-                              .includes(filter.name.toLowerCase()) &&
-                          contact.isActive === filter.isActive
-                  )
-                : contacts,
-        [contacts, filter]
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+    const open = Boolean(anchorEl)
+    const handleClick = useCallback(
+        (event: React.MouseEvent<HTMLButtonElement>) => {
+            setAnchorEl(event.currentTarget)
+        },
+        []
     )
+    const handleClose = useCallback(() => {
+        setAnchorEl(null)
+    }, [])
+
+    const rows = useContactsTableRows()
+    const { columnsVisibility, toggleColumnVisibility } =
+        useContactsTableColumnVisibility()
+
+    const columns = React.useMemo(() => {
+        return createContactsTableColumns({
+            anchorEl,
+            handleClose,
+            handleClick,
+            open,
+            columnsVisibility,
+            toggleColumnVisibility,
+        })
+    }, [
+        anchorEl,
+        handleClose,
+        handleClick,
+        open,
+        columnsVisibility,
+        toggleColumnVisibility,
+    ])
+
     return (
         <Paper sx={tableContainerCustomStyles}>
             <DataGrid
                 rows={rows}
                 rowSelection={true}
                 onRowClick={(value) => onSelect(value.id.toString())}
+                columnVisibilityModel={columnsVisibility}
                 columns={columns}
-                sx={{ border: 0 }}
+                sx={{ border: 0, width: 1000 }}
             />
         </Paper>
     )

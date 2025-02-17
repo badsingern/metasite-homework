@@ -27,8 +27,9 @@ interface Props {
 
 export const ContactCard: React.FC<Props> = ({ contactId }) => {
     const { contact } = useGetContactById(contactId)
+
     return contact ? (
-        <Card sx={{ maxWidth: 345, height: '100%' }}>
+        <Card sx={{ maxWidth: 330, height: '100%' }}>
             <CardMedia
                 component="img"
                 alt="hill"

@@ -4,6 +4,7 @@ import { Contact } from '../api/models/contact.ts'
 
 export const useGetContactById = (id: string) => {
     const [contact, setContact] = useState<Contact>()
+
     const getContactById = useCallback(async (): Promise<void> => {
         try {
             const response = await getContact(id)

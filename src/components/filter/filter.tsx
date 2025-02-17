@@ -1,48 +1,12 @@
 import React, { useMemo, useState } from 'react'
 import styled from '@emotion/styled'
+import { Button, Checkbox, FormControlLabel, MenuItem } from '@mui/material'
 import {
-    Button,
-    Checkbox,
-    FormControlLabel,
-    MenuItem,
-    TextField as MuiTextField,
-} from '@mui/material'
-import { useContactsStore } from '../../stores/use-contacts-store.ts'
+    FilterState,
+    useContactsStore,
+} from '../../stores/use-contacts-store.ts'
 import VisibilityIcon from '@mui/icons-material/Visibility'
-
-const textFieldCustomStyles = {
-    '& .MuiOutlinedInput-root': {
-        color: 'secondary.main',
-        fontWeight: 'bold',
-        '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'secondary.main',
-            borderWidth: '1px',
-        },
-        '&.Mui-focused': {
-            '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'secondary.main',
-                borderWidth: '1px',
-            },
-        },
-        '&:hover:not(.Mui-focused)': {
-            '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'secondary.main',
-            },
-        },
-    },
-    '& .MuiInputLabel-outlined': {
-        color: 'secondary.main',
-        fontWeight: 'bold',
-        '&.Mui-focused': {
-            color: 'secondary.main',
-            fontWeight: 'bold',
-        },
-    },
-    '.MuiSvgIcon-root ': {
-        color: 'secondary.main',
-        fill: 'secondary.main',
-    },
-}
+import { FilterInput } from './filter-input.tsx'
 
 const checkboxCustomStyles = {
     color: 'primary.main',
@@ -63,10 +27,6 @@ const Container = styled.div`
     align-items: center;
 `
 
-const TextField = styled(MuiTextField)`
-    width: 300px;
-`
-
 const CheckboxLabelContainer = styled.div`
     display: flex;
     align-items: center;
@@ -75,20 +35,21 @@ const CheckboxLabelContainer = styled.div`
 
 export const Filter: React.FC = () => {
     const { setFilter, contacts } = useContactsStore()
+
     const cityOptions = useMemo(
         () => contacts.map((contact) => contact.city),
         [contacts]
     )
 
-    const [filterValues, setFilterValues] = useState<{
-        name: string
-        city: string
-        isActive: boolean | undefined
-    }>({ name: '', city: '', isActive: false })
+    const [filterValues, setFilterValues] = useState<FilterState>({
+        name: '',
+        city: '',
+        isActive: false,
+    })
+
     return (
         <Container>
-            <TextField
-                sx={textFieldCustomStyles}
+            <FilterInput
                 label="Name"
                 variant="outlined"
                 value={filterValues.name}
@@ -99,8 +60,7 @@ export const Filter: React.FC = () => {
                     }))
                 }
             />
-            <TextField
-                sx={textFieldCustomStyles}
+            <FilterInput
                 label="City"
                 select
                 variant="outlined"
@@ -117,7 +77,7 @@ export const Filter: React.FC = () => {
                         {city}
                     </MenuItem>
                 ))}
-            </TextField>
+            </FilterInput>
             <FormControlLabel
                 control={
                     <Checkbox
